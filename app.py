@@ -4,6 +4,7 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter import ttk
+from tkinter.filedialog import asksaveasfile
 
 #custom
 
@@ -192,10 +193,14 @@ def get_device_info():
     #resize root window
     root.geometry('450x350')
 
-    def export():
-        my_df.to_csv('~/Desktop/device_output.csv')
+    #Prompt Export Option
+    def export(): 
+        files = [('CSV file', '*.csv'), ('All Files', '*.*')] 
+        file = asksaveasfile(filetypes = files, defaultextension = files)
+        my_df.reset_index(drop=True)
+        my_df.to_csv(file, index=False)
 
-    export_button = Button(root, padx=50, pady=10, text='Export CSV to Desktop?', command=export)
+    export_button = Button(root, padx=50, pady=10, text='Export to CSV', command=export)
     export_button.grid(row=7,column=0, columnspan=2)
 
 
